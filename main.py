@@ -1,7 +1,5 @@
 import os
 import discord
-import requests
-import json
 import random
 import time
 from replit import db
@@ -9,7 +7,6 @@ from keep_alive import keep_alive
 import dialogue
 
 my_secret = os.environ['TOKEN']
-WEATHER_API = os.environ['WEATHER_API']
 os.environ['TZ'] = 'EST+05EDT,M4.1.0,M10.5.0'
 time.tzset()
 client = discord.Client()
@@ -19,44 +16,6 @@ replyTypes = ["encouragements", "advice"]
 if "responding" not in db.keys():
   db["responding"] = True
 
-
-def get_quote():
-  #zenquotes api returns inspiring quote
-  response = requests.get("https://zenquotes.io/api/random")
-  data = json.loads(response.text)
-  quote = data[0]['q'] + " -" + data[0]['a']
-  return quote
-
-
-def get_crazyquote():
-  #inspirobot api returns nonsense quote
-  response = requests.get("https://inspirobot.me/api?generate=true")
-  quote = response.text
-  return quote
-
-
-def kelvinToCelsius(temp):
-  return round(temp - 273.15, 2)
-
-
-def get_weather(city):
-  base_url = "http://api.openweathermap.org/data/2.5/weather?appid=" + \
-      WEATHER_API + "&q=" + city
-  response = requests.get(base_url)
-  data = json.loads(response.text)
-  country = data["sys"]["country"].lower()
-  message = (f'__Here\'s the current weather in **{data["name"]}**__ :flag_{country}:\n'
-             f'*Coordinates at ({data["coord"]["lon"]},{data["coord"]["lat"]})*\n'
-             f'**Temperature:** {kelvinToCelsius(data["main"]["temp"])}° C\n'
-             f'**Feels like:** {kelvinToCelsius(data["main"]["feels_like"])}° C\n'
-             f'**Status:** {data["weather"][0]["description"]}\n')
-  return message
-
-
-def get_behavior():
-  return behavior
-
-
 def get_persona():
   return persona
 
@@ -64,8 +23,6 @@ def get_persona():
 def set_persona(newPersona):
   global persona
   persona = newPersona
-  global behavior
-  behavior = dialogue.personality[newPersona]
 
 
 def update_replies(reply, replyType):
@@ -90,8 +47,8 @@ def delete_reply(index, replyType):
 
 
 def get_reply_options(replyType):
-  behavior = get_behavior()
-  options = behavior['starter_' + replyType]
+  fullList = getattr(dialogue, 'starter_' + replyType)
+  options = fullList[get_persona()]
   if db["responding"]:
     if replyType in db.keys():
       options.extend(db[replyType][get_persona()])
@@ -102,9 +59,6 @@ def get_reply_options(replyType):
 async def on_ready():
   set_persona('sweet')
   print('We have logged in as {0.user}'.format(client))
-  global behavior
-  behavior = dialogue.personality[get_persona()]
-
 
 @client.event
 async def on_message(message):
@@ -117,15 +71,15 @@ async def on_message(message):
     await message.channel.send("Good day, good day, good day, I'm glad you came my way!")
 
   if message.content.startswith('$inspire'):
-    if(behavior['quote'] == 'crazyquote'):
-      quote = get_crazyquote()
+    if(dialogue.inspireType[persona] == 'crazyquote'):
+      quote = dialogue.get_crazyquote()
     else:
-      quote = get_quote()
+      quote = dialogue.get_quote()
     await message.channel.send(quote)
 
   if message.content.startswith('$weather'):
     city = (msg.split("$weather ", 1)[1]).lower()
-    await message.channel.send(get_weather(city))
+    await message.channel.send(dialogue.get_weather(city))
 
   if message.content.startswith('$video'):
     await message.channel.send(dialogue.random_choice(dialogue.videos))
@@ -140,12 +94,12 @@ async def on_message(message):
 
   '''RESPONSES'''
   #respond to sad messages
-  if any(word in msg for word in dialogue.sad_words):
+  if any(word in msg for word in dialogue.input_words['sad']):
     options = get_reply_options("encouragements")
     await message.channel.send(random.choice(options))
 
   #respond to upset messages
-  if any(word in msg for word in dialogue.mad_words):
+  if any(word in msg for word in dialogue.input_words['mad']):
     options = get_reply_options("advice")
     await message.channel.send(random.choice(options))
 
@@ -156,7 +110,7 @@ async def on_message(message):
       set_persona(newPersona)
       await message.channel.send("PERSONA SET == " + newPersona)
     else:
-      await message.channel.send("Seems like I don't have that personality yet.")
+      await message.channel.send("! [target personality not found]")
 
   '''REPLY DB COMMANDS'''
   if msg.startswith("$add"):
