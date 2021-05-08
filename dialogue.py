@@ -5,6 +5,8 @@ import json
 
 WEATHER_API = os.environ['WEATHER_API']
 
+personalities = ['sweet', 'silly']
+
 def random_choice(var):
   return random.choice(var)
 

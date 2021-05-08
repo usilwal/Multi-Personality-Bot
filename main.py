@@ -50,7 +50,7 @@ def get_reply_options(replyType):
   fullList = getattr(dialogue, 'starter_' + replyType)
   options = fullList[get_persona()]
   if db["responding"]:
-    if replyType in db.keys():
+    if (replyType in db.keys() and get_persona() in db[replyType].keys()):
       options.extend(db[replyType][get_persona()])
   return options
 
@@ -106,7 +106,7 @@ async def on_message(message):
   '''PERSONALITY SET'''
   if message.content.startswith('$set-persona'):
     newPersona = (msg.split("$set-persona ", 1)[1]).lower()
-    if (newPersona in dialogue.personality.keys()):
+    if (newPersona in dialogue.personalities):
       set_persona(newPersona)
       await message.channel.send("PERSONA SET == " + newPersona)
     else:
