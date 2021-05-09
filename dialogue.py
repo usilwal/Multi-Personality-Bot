@@ -8,8 +8,10 @@ WEATHER_API = os.environ['WEATHER_API']
 personalities = ['sweet', 'silly']
 
 input_words = {
+  'hello': ["hi", "hello", "hey", "ay", "ola", "yo", "excuse me"],
   'sad': ["sad", "depressed", "unhappy", "miserable", "abysmal"],
-  'mad': ["mad", "angry", "unhinged", "agitated", "fed up"]
+  'mad': ["mad", "angry", "unhinged", "agitated", "fed up"],
+  'bot': ["multipersona", "multi-personality", "bot"]
 }
 
 videos = {
@@ -62,7 +64,7 @@ starter_advice = {
       "It's okay, I promise. Hold on to something stable. If you can't find anything, listen to a song, a calm song."
     ],
   'silly': [
-      "Yeah, it's rough out there. I bet you're valid, though, alright? Treat yourself to something.",
+      "Yeah, it's rough out there. Nothing to do but try to bring the tension down, eh? Treat yourself to something.",
       "Man, when I get like that, it's pretty tiring... sometimes a nap can help, I think!",
       "You know that commercial about eating a Snickers? Well, it's sort of true, I guess. Food can help!",
       "If you're down for deep breaths... in through the nose... out through the mouth... that's it, keep going!",

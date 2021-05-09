@@ -54,6 +54,8 @@ def get_reply_options(replyType):
       options.extend(db[replyType][get_persona()])
   return options
 
+def input_in_message(msg, input):
+  return any(word in msg.lower() for word in dialogue.input_words[input]) 
 
 @client.event
 async def on_ready():
@@ -67,8 +69,8 @@ async def on_message(message):
     return
 
   '''BASIC COMMANDS'''
-  if message.content.startswith('$hello'):
-    await message.channel.send("Good day, good day, good day, I'm glad you came my way!")
+  if input_in_message(msg, 'hello') and input_in_message(msg, 'bot'):
+    await message.channel.send(dialogue.random_choice(dialogue.hello[get_persona()]))
 
   if message.content.startswith('$inspire'):
     if(dialogue.inspireType[persona] == 'crazyquote'):
@@ -87,12 +89,12 @@ async def on_message(message):
 
   '''RESPONSES'''
   #respond to sad messages
-  if any(word in msg for word in dialogue.input_words['sad']):
+  if input_in_message(msg, 'sad'):
     options = get_reply_options("encouragements")
     await message.channel.send(dialogue.random_choice(options))
 
   #respond to upset messages
-  if any(word in msg for word in dialogue.input_words['mad']):
+  if input_in_message(msg, 'mad'):
     options = get_reply_options("advice")
     await message.channel.send(dialogue.random_choice(options))
 
