@@ -7,58 +7,35 @@ WEATHER_API = os.environ['WEATHER_API']
 
 personalities = ['sweet', 'silly']
 
-def random_choice(var):
-  return random.choice(var)
-
-def get_quote():
-  #zenquotes api returns inspiring quote
-  response = requests.get("https://zenquotes.io/api/random")
-  data = json.loads(response.text)
-  quote = data[0]['q'] + " -" + data[0]['a']
-  return quote
-
-
-def get_crazyquote():
-  #inspirobot api returns nonsense quote
-  response = requests.get("https://inspirobot.me/api?generate=true")
-  quote = response.text
-  return quote
-
-
-def kelvinToCelsius(temp):
-  return round(temp - 273.15, 2)
-
-
-def get_weather(city):
-  base_url = "http://api.openweathermap.org/data/2.5/weather?appid=" + \
-      WEATHER_API + "&q=" + city
-  response = requests.get(base_url)
-  data = json.loads(response.text)
-  country = data["sys"]["country"].lower()
-  message = (f'__Here\'s the current weather in **{data["name"]}**__ :flag_{country}:\n'
-             f'*Coordinates at ({data["coord"]["lon"]},{data["coord"]["lat"]})*\n'
-             f'**Temperature:** {kelvinToCelsius(data["main"]["temp"])}° C\n'
-             f'**Feels like:** {kelvinToCelsius(data["main"]["feels_like"])}° C\n'
-             f'**Status:** {data["weather"][0]["description"]}\n')
-  return message
-
 input_words = {
   'sad': ["sad", "depressed", "unhappy", "miserable", "abysmal"],
   'mad': ["mad", "angry", "unhinged", "agitated", "fed up"]
 }
 
-videos = [
+videos = {
+  'sweet': [
+    "Dream - Motivational Video: https://www.youtube.com/watch?v=g-jwWYX7Jlo",
+    "NEVER GIVE UP!!: https://www.youtube.com/watch?v=KxGRhd_iWuE",
+    "Grit: the power of passion and perseverance: https://www.youtube.com/watch?v=H14bBuluwB8",
+    "Mr Rogers' Advice: https://www.youtube.com/watch?v=J9O48kKG4MI",
+    "Collection Of Inspirational & Moving Film Scenes: https://www.youtube.com/watch?v=vdRNQLi5Mqw",
+    "Cat politely declines being removed from blanket pile: https://www.youtube.com/watch?v=Oyx3xkdi4uw",
+    "Dog and Capybara: https://www.youtube.com/watch?v=SCwcJsBYL3o",
+    "Keyboard Cat: https://www.youtube.com/watch?v=J---aiyznGQ",
+    "A Trip Through New York City in 1911: https://www.youtube.com/watch?v=hZ1OgQL9_Cw"
+  ],
+  'silly': [
   "Epic Sax Guy: https://www.youtube.com/watch?v=gy1B3agGNxw", 
   "Tetu tete tu tetu tete tun tetun tete tun: https://www.youtube.com/watch?v=llqgYp5TpeY",
   "am sheep: https://www.youtube.com/watch?v=7qHOSmRiFsw",
   "kerbe mountain: https://www.youtube.com/watch?v=toHtBSNvdpM",
   "You're Correct Horse: https://www.youtube.com/watch?v=b3_lVSrPB6w",
   "Oogachaka Baby: https://www.youtube.com/watch?v=-5x5OXfe9KY",
-  "Keyboard Cat: https://www.youtube.com/watch?v=J---aiyznGQ",
   "Teen Witch - Top That! (1989): https://www.youtube.com/watch?v=oxxBXpnn2Jw",
   "ALL RIGHT! VAMPIRES RULE: https://www.youtube.com/watch?v=K2dqMxzYnBU",
   "Spongebob and Patrick Sing Bangarang: https://www.youtube.com/watch?v=LKpZGs9TgQY"
   ]
+}
 
 starter_encouragements = {
   'sweet': [
@@ -71,7 +48,7 @@ starter_encouragements = {
   'silly': [
       "Sadness is like a rude kid! Talk to it like a fed-up parent!",
       "Think of a puppy. A really cute puppy!",
-      "Mind if I show you a video? " + random_choice(videos),
+      "Want to see a $video?",
       "Don't despair! You're almost there!"
     ],
 }
@@ -112,5 +89,39 @@ inspireType = {
   'sweet': 'normalquote',
   'silly': 'crazyquote'
 }
+
+def random_choice(var):
+  return random.choice(var)
+
+def get_quote():
+  #zenquotes api returns inspiring quote
+  response = requests.get("https://zenquotes.io/api/random")
+  data = json.loads(response.text)
+  quote = data[0]['q'] + " -" + data[0]['a']
+  return quote
+
+
+def get_crazyquote():
+  #inspirobot api returns nonsense quote
+  response = requests.get("https://inspirobot.me/api?generate=true")
+  quote = response.text
+  return quote
+
+
+def kelvinToCelsius(temp):
+  return round(temp - 273.15, 2)
+
+def get_weather(city, persona):
+  base_url = "http://api.openweathermap.org/data/2.5/weather?appid=" + \
+      WEATHER_API + "&q=" + city
+  response = requests.get(base_url)
+  data = json.loads(response.text)
+  country = data["sys"]["country"].lower()
+  message = (f'__Here\'s the current weather in **{data["name"]}**__ :flag_{country}:\n'
+             f'*Coordinates at ({data["coord"]["lon"]},{data["coord"]["lat"]})*\n'
+             f'**Temperature:** {kelvinToCelsius(data["main"]["temp"])}° C\n'
+             f'**Feels like:** {kelvinToCelsius(data["main"]["feels_like"])}° C\n'
+             f'**Status:** {data["weather"][0]["description"]}\n')
+  return message
 
 

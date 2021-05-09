@@ -77,13 +77,6 @@ async def on_message(message):
       quote = dialogue.get_quote()
     await message.channel.send(quote)
 
-  if message.content.startswith('$weather'):
-    city = (msg.split("$weather ", 1)[1]).lower()
-    await message.channel.send(dialogue.get_weather(city))
-
-  if message.content.startswith('$video'):
-    await message.channel.send(dialogue.random_choice(dialogue.videos))
-
   if message.content.startswith('$time'):
     await message.channel.send('Current time is ' + str(time.strftime("%I:%M %p")))
 
@@ -96,12 +89,12 @@ async def on_message(message):
   #respond to sad messages
   if any(word in msg for word in dialogue.input_words['sad']):
     options = get_reply_options("encouragements")
-    await message.channel.send(random.choice(options))
+    await message.channel.send(dialogue.random_choice(options))
 
   #respond to upset messages
   if any(word in msg for word in dialogue.input_words['mad']):
     options = get_reply_options("advice")
-    await message.channel.send(random.choice(options))
+    await message.channel.send(dialogue.random_choice(options))
 
   '''PERSONALITY SET'''
   if message.content.startswith('$set-persona'):
@@ -154,6 +147,14 @@ async def on_message(message):
     else:
       db["responding"] = True
       await message.channel.send("Oh! Good morning! I think...")
+
+  '''MISC RESPONSES'''
+  if message.content.startswith('$weather'):
+    city = (msg.split("$weather ", 1)[1]).lower()
+    await message.channel.send(dialogue.get_weather(city, persona))
+
+  if message.content.startswith('$video'):
+    await message.channel.send(dialogue.random_choice(dialogue.videos[get_persona()]))
 
 keep_alive()
 client.run(os.getenv('TOKEN'))
