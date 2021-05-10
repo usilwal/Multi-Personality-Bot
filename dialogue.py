@@ -8,7 +8,7 @@ WEATHER_API = os.environ['WEATHER_API']
 personalities = ['sweet', 'silly']
 
 input_words = {
-  'hello': ["hi", "hello", "hey", "ay", "ola", "yo", "excuse me"],
+  'hello': ["hi", "hello", "hey", "ay", "ola", "yo ", "excuse me"],
   'sad': ["sad", "depressed", "unhappy", "miserable", "abysmal"],
   'mad': ["mad", "angry", "unhinged", "agitated", "fed up"],
   'bot': ["multipersona", "multi-personality", "bot"]
@@ -94,28 +94,28 @@ inspireType = {
 
 weatherQuotes = {
   'clear': {
-    'sweet': ["A good day for a walk!"],
-    'silly': ["Whoa! My favorite!"]
+    'sweet': ["A good day for a walk!", "Nice day out! Unless it's night."],
+    'silly': ["Whoa! My favorite!", "I can see the moon with this weather!! You probably can't though, since you're not a robot."]
   },
   'clouds': {
-    'sweet': ["The shade's around, it seems!"],
-    'silly': ["Ooh. Fluffy."]
+    'sweet': ["The shade's around, it seems!", "Some say clouds are dreary, but they're calm too, sometimes."],
+    'silly': ["Ooh. Fluffy.", "When you think about it, clouds are kind of like curtains. Weird, watery curtains."]
   },
   'thunderstorm': {
-    'sweet': ["Probably best not to go out!"],
-    'silly': ["BOOOOOOM! That's my impression of thunder."]
+    'sweet': ["Probably best not to go out!", "Stay safe indoors!"],
+    'silly': ["BOOOOOOM! That's my impression of thunder.", "I'm feeling THUNDERSTRUCK!"]
   },
   'drizzle': {
-    'sweet': ["Drizzle, huh... well, it'll water the flowers!"],
-    'silly': ["It's like we're being showered by a sprinkler, huh?"]
+    'sweet': ["Drizzle, huh... well, it'll water the flowers!", "It's nice to go out and watch this kind of weather... under a roof."],
+    'silly': ["It's like we're being showered by a sprinkler, huh?", "What is a drizzle, anyway?"]
   },
   'rain': {
-    'sweet': ["Rain, rain, go away... Well, unless you don't want it to!"],
-    'silly': ["Let's hope that um, the worms don't come out of the ground this time."]
+    'sweet': ["Rain, rain, go away... Well, unless you don't want it to!", "How do you feel about the rain?"],
+    'silly': ["Let's hope that um, the worms don't come out of the ground this time.", "Oh! No! I forgot my umbrella!"]
   },
   'snow': {
-    'sweet': ["Even if it's harder to drive, I suppose I can't help but be marveled."],
-    'silly': ["Santa Claus is coming to town! Uhh, don't tell me if I'm wrong here."]
+    'sweet': ["Even if it's harder to drive, I suppose I can't help but be marveled.", "Some places don't get snow, so I cherish it!"],
+    'silly': ["Santa Claus is coming to town! Uhh, don't tell me if I'm wrong here.", "You up for a snowball fight, friendo?"]
   }
 }
 def random_choice(var):
