@@ -92,6 +92,32 @@ inspireType = {
   'silly': 'crazyquote'
 }
 
+weatherQuotes = {
+  'clear': {
+    'sweet': ["A good day for a walk!"],
+    'silly': ["Whoa! My favorite!"]
+  },
+  'clouds': {
+    'sweet': ["The shade's around, it seems!"],
+    'silly': ["Ooh. Fluffy."]
+  },
+  'thunderstorm': {
+    'sweet': ["Probably best not to go out!"],
+    'silly': ["BOOOOOOM! That's my impression of thunder."]
+  },
+  'drizzle': {
+    'sweet': ["Drizzle, huh... well, it'll water the flowers!"],
+    'silly': ["It's like we're being showered by a sprinkler, huh?"]
+  },
+  'rain': {
+    'sweet': ["Rain, rain, go away... Well, unless you don't want it to!"],
+    'silly': ["Let's hope that um, the worms don't come out of the ground this time."]
+  },
+  'snow': {
+    'sweet': ["Even if it's harder to drive, I suppose I can't help but be marveled."],
+    'silly': ["Santa Claus is coming to town! Uhh, don't tell me if I'm wrong here."]
+  }
+}
 def random_choice(var):
   return random.choice(var)
 
@@ -113,17 +139,35 @@ def get_crazyquote():
 def kelvinToCelsius(temp):
   return round(temp - 273.15, 2)
 
+def get_weather_quote(desc, persona):
+  if 'clear' in desc:
+    return random_choice(weatherQuotes['clear'][persona])
+  elif 'clouds' in desc:
+    return random_choice(weatherQuotes['clouds'][persona])
+  elif 'thunderstorm' in desc:
+    return random_choice(weatherQuotes['thunderstorm'][persona])
+  elif 'drizzle' in desc:
+    return random_choice(weatherQuotes['drizzle'][persona])
+  elif 'rain' in desc:
+    return random_choice(weatherQuotes['rain'][persona])
+  elif 'snow' in desc:
+    return random_choice(weatherQuotes['snow'][persona])
+
+
 def get_weather(city, persona):
   base_url = "http://api.openweathermap.org/data/2.5/weather?appid=" + \
       WEATHER_API + "&q=" + city
   response = requests.get(base_url)
   data = json.loads(response.text)
   country = data["sys"]["country"].lower()
+  quip = get_weather_quote(data["weather"][0]["description"], persona)
   message = (f'__Here\'s the current weather in **{data["name"]}**__ :flag_{country}:\n'
              f'*Coordinates at ({data["coord"]["lon"]},{data["coord"]["lat"]})*\n'
              f'**Temperature:** {kelvinToCelsius(data["main"]["temp"])}° C\n'
              f'**Feels like:** {kelvinToCelsius(data["main"]["feels_like"])}° C\n'
-             f'**Status:** {data["weather"][0]["description"]}\n')
+             f'**Status:** {data["weather"][0]["description"]}\n'
+             f'------\n'
+             f'{quip}\n')
   return message
 
 
