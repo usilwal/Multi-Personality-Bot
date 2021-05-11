@@ -8,9 +8,10 @@ WEATHER_API = os.environ['WEATHER_API']
 personalities = ['sweet', 'silly']
 
 input_words = {
-  'hello': ["hi", "hello", "hey", "ay", "ola", "yo ", "excuse me"],
+  'hello': ["hi", "hello", "hey", "yo ", "excuse me"],
+  'thanks': ["thanks", "thank you", "thx", "thank u"],
   'sad': ["sad", "depressed", "unhappy", "miserable", "abysmal"],
-  'mad': ["mad", "angry", "unhinged", "agitated", "fed up"],
+  'mad': ["mad", "angry", "unhinged", "upset", "agitated", "fed up"],
   'bot': ["multipersona", "multi-personality", "bot"]
 }
 
@@ -36,6 +37,39 @@ videos = {
   "Teen Witch - Top That! (1989): https://www.youtube.com/watch?v=oxxBXpnn2Jw",
   "ALL RIGHT! VAMPIRES RULE: https://www.youtube.com/watch?v=K2dqMxzYnBU",
   "Spongebob and Patrick Sing Bangarang: https://www.youtube.com/watch?v=LKpZGs9TgQY"
+  ]
+}
+
+
+starter_greetings = {
+  'sweet': [
+      "Good day!",
+      "Hello! It's always a good time to calm our nerves.",
+      "Hello to you too!",
+      "Hello, hello!"
+    ],
+    'silly': [
+      "Hey hey hey!",
+      "Good day, good day, good day, I'm glad you came my way!",
+      "Good morning, day, afternoon, evening or night!",
+      "What's up, doc?"
+    ],
+}
+
+starter_thanks = {
+  'sweet': [
+    "Thank you to you too!",
+    "I'm glad I could talk to you!",
+    "It's nothing, really!",
+    "Take care and have a good day, alright?",
+    "No worries! Take care!"
+  ],
+  'silly': [
+    "Aww, that's sweet! Thanks!",
+    "It's my honor! I take honor very seriously, you know. Very serious, I am.",
+    "More like... Thanks... to you! Okay, that might not have been as funny as I thought it was.",
+    "May the fourth be with you! Wait oops. I think I misremembered that?",
+    "You're super-duper-awesomely-welcome!"
   ]
 }
 
@@ -72,21 +106,6 @@ starter_advice = {
     ],
 }
 
-hello = {
-  'sweet': [
-      "Good day!",
-      "Hello! It's always a good time to calm our nerves.",
-      "Hello to you too!",
-      "Hello, hello!"
-    ],
-    'silly': [
-      "Hey hey hey!",
-      "Good day, good day, good day, I'm glad you came my way!",
-      "Good morning, day, afternoon, evening or night!",
-      "What's up, doc?"
-    ],
-}
-
 inspireType = {
   'sweet': 'normalquote',
   'silly': 'crazyquote'
@@ -99,7 +118,7 @@ weatherQuotes = {
   },
   'clouds': {
     'sweet': ["The shade's around, it seems!", "Some say clouds are dreary, but they're calm too, sometimes."],
-    'silly': ["Ooh. Fluffy.", "When you think about it, clouds are kind of like curtains. Weird, watery curtains."]
+    'silly': ["Ooh. Fluffy!", "When you think about it, clouds are kind of like curtains! Weird, watery curtains."]
   },
   'thunderstorm': {
     'sweet': ["Probably best not to go out!", "Stay safe indoors!"],

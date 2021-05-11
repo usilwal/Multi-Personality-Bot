@@ -1,6 +1,5 @@
 import os
 import discord
-import random
 import time
 from replit import db
 from keep_alive import keep_alive
@@ -11,7 +10,7 @@ os.environ['TZ'] = 'EST+05EDT,M4.1.0,M10.5.0'
 time.tzset()
 client = discord.Client()
 
-replyTypes = ["encouragements", "advice"]
+replyTypes = ["greetings", "thanks", "encouragements", "advice"]
 
 if "responding" not in db.keys():
   db["responding"] = True
@@ -55,7 +54,9 @@ def get_reply_options(replyType):
   return options
 
 def input_in_message(msg, input):
-  return any(word in msg.lower() for word in dialogue.input_words[input]) 
+  inputTrue = any(word in msg.lower() for word in dialogue.input_words[input])
+  botcallTrue = any(word in msg.lower() for word in dialogue.input_words['bot'])
+  return inputTrue and botcallTrue
 
 @client.event
 async def on_ready():
@@ -69,9 +70,6 @@ async def on_message(message):
     return
 
   '''BASIC COMMANDS'''
-  if input_in_message(msg, 'hello') and input_in_message(msg, 'bot'):
-    await message.channel.send(dialogue.random_choice(dialogue.hello[get_persona()]))
-
   if message.content.startswith('$inspire'):
     if(dialogue.inspireType[persona] == 'crazyquote'):
       quote = dialogue.get_crazyquote()
@@ -88,6 +86,13 @@ async def on_message(message):
     await message.channel.send("...Just kidding! I'm immortal! I can't be terminated!")
 
   '''RESPONSES'''
+  if input_in_message(msg, 'hello'):
+    options = get_reply_options("greetings")
+    await message.channel.send(dialogue.random_choice(options))
+
+  if input_in_message(msg, 'thanks'):
+    options = get_reply_options("thanks")
+    await message.channel.send(dialogue.random_choice(options))
   #respond to sad messages
   if input_in_message(msg, 'sad'):
     options = get_reply_options("encouragements")
