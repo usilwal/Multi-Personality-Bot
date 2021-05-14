@@ -10,7 +10,7 @@ os.environ['TZ'] = 'EST+05EDT,M4.1.0,M10.5.0'
 time.tzset()
 client = discord.Client()
 
-replyTypes = ["greetings", "thanks", "encouragements", "advice"]
+replyTypes = ["greetings", "thanks", "encouragements", "advice", "videos"]
 
 if "responding" not in db.keys():
   db["responding"] = True
@@ -97,6 +97,10 @@ async def on_message(message):
   if input_in_message(msg, 'sad'):
     options = get_reply_options("encouragements")
     await message.channel.send(dialogue.random_choice(options))
+  
+  if input_in_message(msg, 'video'):
+    options = get_reply_options("videos")
+    await message.channel.send(dialogue.random_choice(options))
 
   #respond to upset messages
   if input_in_message(msg, 'mad'):
@@ -159,9 +163,6 @@ async def on_message(message):
   if message.content.startswith('$weather'):
     city = (msg.split("$weather ", 1)[1]).lower()
     await message.channel.send(dialogue.get_weather(city, persona))
-
-  if message.content.startswith('$video'):
-    await message.channel.send(dialogue.random_choice(dialogue.videos[get_persona()]))
 
 keep_alive()
 client.run(os.getenv('TOKEN'))

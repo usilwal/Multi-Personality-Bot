@@ -12,10 +12,11 @@ input_words = {
   'thanks': ["thanks", "thank you", "thx", "thank u"],
   'sad': ["sad", "depressed", "unhappy", "miserable", "abysmal"],
   'mad': ["mad", "angry", "unhinged", "upset", "agitated", "fed up"],
+  'video': ["video", "videos", "youtube"],
   'bot': ["multipersona", "multi-personality", "bot"]
 }
 
-videos = {
+starter_videos = {
   'sweet': [
     "Dream - Motivational Video: https://www.youtube.com/watch?v=g-jwWYX7Jlo",
     "NEVER GIVE UP!!: https://www.youtube.com/watch?v=KxGRhd_iWuE",
