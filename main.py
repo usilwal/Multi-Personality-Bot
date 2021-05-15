@@ -62,7 +62,7 @@ def input_in_message(msg, input):
 async def on_ready():
   set_persona('sweet')
   for guild in client.guilds:
-    guild.me.edit(nick="Multipersona (sweet)")
+    await guild.me.edit(nick="Multipersona (sweet)")
   print('We have logged in as {0.user}'.format(client))
 
 @client.event
