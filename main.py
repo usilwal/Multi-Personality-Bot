@@ -112,6 +112,7 @@ async def on_message(message):
     newPersona = (msg.split("$set-persona ", 1)[1]).lower()
     if (newPersona in dialogue.personalities):
       set_persona(newPersona)
+      await message.guild.me.edit(nick="Multipersona (" + newPersona + ")")
       await message.channel.send("PERSONA SET == " + newPersona)
     else:
       await message.channel.send("! [target personality not found]")
